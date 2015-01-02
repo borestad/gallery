@@ -21,7 +21,6 @@
 - `gulp imagemin`:compress image files
 - `gulp connect`: inicialize a server
 - `gulp watch`: call for watch files
-- `gulp watchfy`: call for watch files (browserify mode)
 - `gulp -p`: minify all files for production
 - `gulp fy -p`: minify all files for production (browserify mode)
 - `gulp build -p`: minify files and deploy via rsync

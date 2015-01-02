@@ -13,3 +13,5 @@ ractive = new Ractive {
   template: require '../templates/template.html'
   data: {name: 'World'}
 }
+
+console.log 'app.ls!!'

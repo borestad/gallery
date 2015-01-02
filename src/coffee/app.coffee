@@ -1,3 +1,3 @@
 foo = require './foo.coffee'
 console.log foo
-console.log 'main.coffee'
+console.log 'app.coffee'

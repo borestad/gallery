@@ -3,6 +3,7 @@ require! 'browserify'
 require! 'watchify'
 require! 'jadeify'
 require! 'fs'
+require! 'colors'
 _ = require 'lodash'
 source = require 'vinyl-source-stream'
 
@@ -10,8 +11,8 @@ module.exports = ($, config) ->
 
   files = [
     {
-      input      : ['./src/coffee/main.coffee']
-      output     : 'main-coffee.js'
+      input      : ['./src/coffee/app.coffee']
+      output     : 'app-coffee.js'
       extensions : ['.coffee']
       dest       : './build/js'
     },
@@ -25,7 +26,9 @@ module.exports = ($, config) ->
 
   createBundle = (options) ->
     if global.isWatching
-      console.log "Using Watchify for '#{options.input}.magenta'"
+      for input in options.input
+        $.util.log "Using Watchify for #{input.yellow}"
+
       bundler = watchify(
         browserify(
           entries: options.input
@@ -35,8 +38,11 @@ module.exports = ($, config) ->
         ),
         watchify.args
       )
+
     else
-      console.log "Using Browserify for '#{options.input}.magenta'"
+      for input in options.input
+        $.util.log "Using Browserify for #{input.yellow}"
+
       bundler = browserify do
         entries   : options.input
         extensions: options.extensions
@@ -54,15 +60,16 @@ module.exports = ($, config) ->
           message: "<%= error.message %>"
         )
         .pipe source(options.output)
-        .pipe $.if $.is-prod, $.streamify($.uglify!)
+        .pipe $.if $.is-prod, $.streamify($.uglify {outSourceMap: true})
         .pipe gulp.dest(options.dest)
         .on 'end', ->
           time = (new Date().getTime() - startTime) / 1000
-          stats = fs.statSync(options.dest + '/' + options.output)
+          output = "#{options.dest}/#{options.output}"
+          stats = fs.statSync(output)
           fileSizeInBytes = stats.size
           fileSizeInKilobytes = fileSizeInBytes / 1000.0
           # FIXME: Only output this on successful builds
-          console.log "✔  #{options.output.yellow} was browserified: #{(time + 's').magenta} | #{fileSizeInKilobytes} Kb"
+          $.util.log "✔  #{output.yellow} was browserified: #{(time + 's').magenta} | #{fileSizeInKilobytes} Kb"
 
     if global.isWatching
       bundler.on 'update', rebundle

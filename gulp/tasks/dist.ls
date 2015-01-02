@@ -9,6 +9,8 @@ module.exports = ($, options) ->
 
     run-sequence do
       'clean',
-      ['blade', 'jade', 'htdocs', 'stylus','imagemin', 'browserify'],
+      ['blade', 'jade', 'htdocs', 'stylus','imagemin'],
+      'browserify',
+      'sloc:build'
       cb
 

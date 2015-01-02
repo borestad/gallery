@@ -68,8 +68,13 @@ module.exports = ($, config) ->
           stats = fs.statSync(output)
           fileSizeInBytes = stats.size
           fileSizeInKilobytes = fileSizeInBytes / 1000.0
+
           # FIXME: Only output this on successful builds
-          $.util.log "✔  #{output.yellow} was browserified: #{(time + 's').magenta} | #{fileSizeInKilobytes} Kb"
+          actions = ['browserified']
+          actions.push 'uglified' if $.is-prod
+          actions = actions.join(' | ')
+
+          $.util.log "✔  #{output.yellow} was [#{actions}]: #{(time + 's').magenta} | #{fileSizeInKilobytes} Kb"
 
     if global.isWatching
       bundler.on 'update', rebundle

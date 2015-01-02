@@ -1,0 +1,102 @@
+{
+  "name": "Fast",
+  "author": "Johan Borestad <johan@borestad.com>",
+  "version": "1.0.0",
+  "description": "My experimental photo gallery",
+  "main": "gulpfile.ls",
+  "scripts": {
+    "test": "karma start",
+    "update-deps": "./node_modules/.bin/npm-check-updates -u"
+  },
+  "browserify": {
+    "transform": [
+      "browserify-shim",
+      "ractivate"
+    ]
+  },
+  "browserify-shim": {
+    "plugin": {
+      "exports": "plugin",
+      "depends": [
+        "jquery:$"
+      ]
+    }
+  },
+  "aliasify": {
+    "aliases": {
+      "ractive": "ractive/build/ractive.runtime"
+    }
+  },
+  "devDependencies": {
+    "LiveScript": "^1.3.1",
+    "aliasify": "^1.5.1",
+    "autoprefixer-stylus": "^0.2.0",
+    "blade": "^3.3.0",
+    "brfs": "^1.2.0",
+    "browser-sync": "^1.8.2",
+    "browserify": "^8.0.3",
+    "browserify-plain-jade": "^0.2.2",
+    "browserify-shim": "^3.8.2",
+    "coffeeify": "^1.0.0",
+    "colors": "^1.0.3",
+    "connect-modrewrite": "^0.7.4",
+    "del": "^1.1.1",
+    "glob": "^4.3.2",
+    "grunt": "^0.4.5",
+    "gulp": "^3.8.10",
+    "gulp-blade": "0.0.5",
+    "gulp-browserify": "^0.5.0",
+    "gulp-changed": "^1.1.0",
+    "gulp-concat": "^2.4.3",
+    "gulp-derequire": "^2.0.0",
+    "gulp-filesize": "0.0.6",
+    "gulp-if": "^1.0.0",
+    "gulp-imagemin": "^1.0.1",
+    "gulp-jade": "^0.10.0",
+    "gulp-karma": "0.0.4",
+    "gulp-livescript": "^2.3.0",
+    "gulp-load-plugins": "^0.8.0",
+    "gulp-notify": "^2.1.0",
+    "gulp-plumber": "^0.6.6",
+    "gulp-rsync": "0.0.5",
+    "gulp-sourcemaps": "^1.3.0",
+    "gulp-streamify": "0.0.5",
+    "gulp-stylus": "^1.3.4",
+    "gulp-uglify": "^1.0.2",
+    "gulp-util": "^3.0.0",
+    "jade": "^1.8.2",
+    "jadeify": "git://github.com/domenic/jadeify",
+    "jeet": "^5.3.0",
+    "jquery": "^2.1.3",
+    "karma": "^0.12.28",
+    "karma-browserifast": "^0.6.1",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-cli": "0.0.4",
+    "karma-jasmine": "^0.1.5",
+    "karma-phantomjs-launcher": "^0.1.4",
+    "kouto-swiss": "^0.10.3",
+    "liveify": "^1.3.1",
+    "lodash": "^2.4.1",
+    "minimist": "0.0.9",
+    "pretty-hrtime": "^1.0.0",
+    "ractivate": "^0.2.0",
+    "ractive": "^0.6.1",
+    "rsyncwrapper": "^0.4.1",
+    "run-sequence": "^1.0.2",
+    "rupture": "0.0.3",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.0.0",
+    "watchify": "^2.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/borestad/gallery.git"
+  },
+  "keywords": [
+    "Jade",
+    "Stylus",
+    "Gulp",
+    "Jeet"
+  ],
+  "license": "MIT"
+}

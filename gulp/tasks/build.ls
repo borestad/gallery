@@ -2,5 +2,5 @@ require! 'gulp'
 
 module.exports = ($, options) ->
   gulp.task 'build', [
-    'js','jade','stylus','imagemin','deploy'
+    'js', 'browserify', 'blade', 'jade', 'htdocs', 'stylus','imagemin'
   ]

@@ -1,5 +1,4 @@
 require! 'gulp'
-require! 'gulp'
 require! 'browserify'
 require! 'watchify'
 
@@ -8,42 +7,44 @@ handleErrors = require '../util/handleErrors'
 source = require 'vinyl-source-stream'
 config = (require '../config').browserify
 
-gulp.task 'watchify', ['setWatch', 'browserify']
+module.exports = ($, options) ->
 
-gulp.task 'browserify', (callback) ->
-  bundleQueue = config.bundleConfigs.length
+  gulp.task 'watchify', ['flags:set-watch', 'browserify']
 
-  browserifyThis = (bundleConfig) ->
-    bundler = browserify {
-      cache: {}
-      packageCache: {}
-      fullPaths: true
-      bundleConfig.entries
-      config.extensions
-      config.debug
-    }
+  gulp.task 'browserify', (callback) ->
+    bundleQueue = config.bundleConfigs.length
 
-    bundler.transform 'coffeeify'
-    bundler.transform 'liveify'
-    bundler.transform 'jadeify'
+    browserifyThis = (bundleConfig) ->
+      bundler = browserify {
+        cache: {}
+        packageCache: {}
+        fullPaths: true
+        bundleConfig.entries
+        config.extensions
+        config.debug
+      }
 
-    bundle = ->
-      bundleLogger.start bundleConfig.outputName
-      bundler.bundle!
-        .on 'error', handleErrors
-        .pipe source bundleConfig.outputName
-        .pipe gulp.dest bundleConfig.dest
-        .on 'end', reportFinished
+      bundler.transform 'coffeeify'
+      bundler.transform 'liveify'
+      bundler.transform 'jadeify'
 
-    if global.isWatching
-      bundler = watchify bundler
-      bundler.on 'update', bundle
+      bundle = ->
+        bundleLogger.start bundleConfig.outputName
+        bundler.bundle!
+          .on 'error', handleErrors
+          .pipe source bundleConfig.outputName
+          .pipe gulp.dest bundleConfig.dest
+          .on 'end', reportFinished
 
-    reportFinished = ->
-      bundleLogger.end bundleConfig.outputName
-      if bundleQueue
-        bundleQueue--
-        callback! if bundleQueue is 0
-    bundle!
+      if global.isWatching
+        bundler = watchify bundler
+        bundler.on 'update', bundle
 
-  config.bundleConfigs.forEach browserifyThis
+      reportFinished = ->
+        bundleLogger.end bundleConfig.outputName
+        if bundleQueue
+          bundleQueue--
+          callback! if bundleQueue is 0
+      bundle!
+
+    config.bundleConfigs.forEach browserifyThis

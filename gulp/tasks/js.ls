@@ -6,5 +6,5 @@ module.exports = ($, options) ->
     gulp.src 'src/js/**/*.js'
       .pipe $.plumber!
       .pipe $.concat 'main.js'
-      .pipe $.if $.isProd, $.uglify!
+      #.pipe $.if $.is-prod, $.uglify!
       .pipe gulp.dest 'build/js'

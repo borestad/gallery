@@ -9,9 +9,10 @@ module.exports = ($, options) ->
   gulp.task 'stylus', ->
     gulp.src 'src/styl/main.styl'
       .pipe $.plumber!
+      .pipe $.bytediff.start!
       .pipe $.stylus {
         sourcemap: {
-          inline: true,
+          inline: $.is-dev,
           sourceRoot: '..',
           basePath: 'css'
         }
@@ -23,4 +24,5 @@ module.exports = ($, options) ->
         ]
         compress: $.is-prod
       }
+      .pipe $.bytediff.stop!
       .pipe gulp.dest 'build/css'

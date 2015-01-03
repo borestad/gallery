@@ -61,6 +61,12 @@ module.exports =
       # }
 
       {
+        entries      : ['./src/js/app-js.js']
+        outputName : 'app-js.js'
+        extensions : ['.js']
+        dest       : './build/js'
+      },
+      {
         entries      : ['./src/jst/blade-jst.coffee']
         outputName : 'blade-jst.js'
         extensions : ['.coffee']

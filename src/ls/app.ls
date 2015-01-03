@@ -1,6 +1,9 @@
 # foo = require './foo.ls'
 # #templates = require '../../build/templates/foo'
-# j-template = require '../templates/j-index.jade'
+j-template = require '../templates/j-index.jade'
+# blade = require '../../node_modules/blade/index.js'
+
+#b-template = require '../templates/b-index.blade'
 
 # console.log foo
 # console.log 'main.ls'
@@ -15,3 +18,5 @@ ractive = new Ractive {
 }
 
 console.log 'app.ls!!'
+console.log 'j-template', j-template!
+#console.log 'b-template', b-template!

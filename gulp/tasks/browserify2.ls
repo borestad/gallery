@@ -131,7 +131,7 @@ module.exports = ($, config) ->
         dest       : bundle.dest
 
 
-  gulp.task 'watchify', _.once ->
+  gulp.task 'watchify2', _.once ->
     global.isWatching = true
     createBundles files
 

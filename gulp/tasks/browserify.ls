@@ -8,6 +8,8 @@ handleErrors = require '../util/handleErrors'
 source = require 'vinyl-source-stream'
 config = (require '../config').browserify
 
+gulp.task 'watchify', ['setWatch', 'browserify']
+
 gulp.task 'browserify', (callback) ->
   bundleQueue = config.bundleConfigs.length
 

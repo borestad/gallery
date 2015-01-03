@@ -88,7 +88,6 @@ module.exports = ($, config) ->
             raw:
               output: output
 
-          console.log output
               #exists: fs.existsSync(output)
             # gzip:
             #   output: output + '.gzip'

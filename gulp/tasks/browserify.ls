@@ -11,6 +11,12 @@ module.exports = ($, config) ->
 
   files = [
     {
+      input      : ['./src/jst/blade-jst.js']
+      output     : 'blade-jst.js'
+      extensions : ['.js']
+      dest       : './build/jst'
+    },
+    {
       input      : ['./src/coffee/app.coffee']
       output     : 'app-coffee.js'
       extensions : ['.coffee']
@@ -23,6 +29,11 @@ module.exports = ($, config) ->
       dest       : './build/js'
     }
   ]
+  getBundleName = ->
+    pkg = require '../../package.json'
+    version = pkg.version
+    name = pkg.name
+    version + '.' + name + '.' + 'min'
 
   createBundle = (options) ->
     if global.isWatching
@@ -51,6 +62,9 @@ module.exports = ($, config) ->
     bundler.transform 'liveify'
     bundler.transform 'jadeify'
 
+    # TODO: Allow brfs transforms
+    # bundler.transform 'brfs'
+
     rebundle = ->
       startTime = new Date().getTime()
       bundler.bundle!
@@ -62,19 +76,46 @@ module.exports = ($, config) ->
         .pipe source(options.output)
         .pipe $.if $.is-prod, $.streamify($.uglify {outSourceMap: true})
         .pipe gulp.dest(options.dest)
+        .pipe $.if $.is-prod, $.gzip!
+        .pipe $.if $.is-prod, gulp.dest(options.dest)
         .on 'end', ->
+          # Custom logging
           time = (new Date().getTime() - startTime) / 1000
           output = "#{options.dest}/#{options.output}"
-          stats = fs.statSync(output)
-          fileSizeInBytes = stats.size
-          fileSizeInKilobytes = fileSizeInBytes / 1000.0
+
+          # Fixme: Cleanup
+          path =
+            raw:
+              output: output
+
+          console.log output
+              #exists: fs.existsSync(output)
+            # gzip:
+            #   output: output + '.gzip'
+            #   exists: fs.existsSync(output + '.gzip')
+
+          stats = {}
+          stats.raw = fs.statSync(path.raw.output)
+          #stats.gzip = fs.statSync(path.gzip) if path.gzip.exists
+
+          stats.raw.fileSizeInBytes = stats.raw.size
+          stats.raw.fileSizeInKilobytes = stats.raw.fileSizeInBytes / 1000.0
+
+          # if path.gzip.exists
+          #   stats.gzip.fileSizeInBytes = stats.gzip.size
+          #   stats.gzip.fileSizeInKilobytes = stats.gzip.fileSizeInBytes / 1000.0
 
           # FIXME: Only output this on successful builds
           actions = ['browserified']
           actions.push 'uglified' if $.is-prod
+          actions.push 'gzipped' if $.is-prod #and path.gzip.exists
           actions = actions.join(' | ')
 
-          $.util.log "✔  #{output.yellow} was [#{actions}]: #{(time + 's').magenta} | #{fileSizeInKilobytes} Kb"
+          msg = "✔  #{output.yellow} was [#{actions}]: #{(time + 's').magenta} | #{stats.raw.fileSizeInKilobytes} Kb"
+          # if $.is-prod and path.gzip.exists
+          #   msg += "\n✔  #{output.yellow} was [#{actions}]: #{(time + 's').magenta} | #{stats.gzip.fileSizeInKilobytes} Kb"
+
+          $.util.log msg
 
     if global.isWatching
       bundler.on 'update', rebundle

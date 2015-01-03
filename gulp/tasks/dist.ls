@@ -12,8 +12,10 @@ module.exports = ($, options) ->
     gulp.src appFiles
       # #.pipe $.concat 'app.concat.js'
       .pipe gulp.dest './dist/'
-      .pipe $.sourcemaps.init!
-      #.pipe $.uglify!
+      .pipe $.sourcemaps.init do
+        loadMaps: true
+
+      .pipe $.uglify!
       # .pipe $.uglify {
       #   outSourceMap: true
       #   #sourceRoot: '../'
@@ -22,7 +24,7 @@ module.exports = ($, options) ->
       # .pipe $.rename (path) ->
       #   path.extname = ".min.js"
       #.pipe $.sourcemaps.write './'
-      .pipe $.sourcemaps.write!
+      .pipe $.sourcemaps.write('./')
       .pipe gulp.dest './dist/'
 
 

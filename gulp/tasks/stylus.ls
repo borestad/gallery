@@ -5,24 +5,56 @@ require! 'jeet'
 prefixer = require 'autoprefixer-stylus'
 
 module.exports = ($, options) ->
+  use = [
+    koutoSwiss!
+    prefixer!
+    jeet!
+    rupture!
+  ]
 
-  gulp.task 'stylus', ->
-    gulp.src 'src/styl/main.styl'
-      .pipe $.plumber!
-      .pipe $.bytediff.start!
-      .pipe $.stylus {
-        sourcemap: {
-          inline: $.is-dev,
-          sourceRoot: '..',
-          basePath: 'css'
+  # Based on
+  # https://github.com/stevelacy/gulp-stylus/issues/73#issuecomment-54859244
+  gulp.task "stylus", ->
+
+    if $.is-dev
+      return gulp.src 'src/styl/main.styl'
+        .pipe $.plumber!
+        .pipe $.stylus {
+          sourcemap: {
+            inline: $.is-dev,
+            sourceRoot: '..',
+            basePath: 'css'
+          }
+          use: [
+            koutoSwiss!
+            prefixer!
+            jeet!
+            rupture!
+          ]
+          compress: true
         }
-        use: [
-          koutoSwiss!
-          prefixer!
-          jeet!
-          rupture!
-        ]
-        compress: $.is-prod
-      }
-      .pipe $.bytediff.stop!
-      .pipe gulp.dest 'build/css'
+        .pipe gulp.dest 'build/css'
+
+
+
+    if $.is-prod
+      return gulp.src("src/styl/main.styl")
+        .pipe $.plumber!
+        .pipe $.stylus do
+          sourcemap:
+            inline: true
+            sourceRoot: "."
+            basePath: "css"
+          use: use
+        .pipe $.sourcemaps.init(loadMaps: true)
+        .pipe $.pleeease(
+          minifier: true
+          sourcemaps: true
+        )
+        .pipe $.sourcemaps.write("./",
+          includeContent: true
+          sourceRoot: "."
+        )
+        .pipe gulp.dest("build/css")
+
+

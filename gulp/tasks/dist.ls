@@ -3,42 +3,32 @@ require! 'run-sequence'
 
 module.exports = ($, options) ->
 
-  gulp.task 'dist-app', ['dist-vendor', 'dist:app-js', 'dist:app-css']
+  gulp.task 'dist-app', ['dist:vendor', 'dist:js', 'dist:css']
 
-  gulp.task 'dist:app-js', ->
+  gulp.task 'dist:js', ->
 
     appFiles = ['./build/**/*.js', '!./build/**/vendor*.js']
 
     gulp.src appFiles
-      # #.pipe $.concat 'app.concat.js'
-      #.pipe gulp.dest './dist/'
       .pipe $.sourcemaps.init do
         loadMaps: true
-
       .pipe $.uglify!
-
-      # .pipe $.uglify {
-      #   outSourceMap: true
-      #   #sourceRoot: '../'
-      #   output: {ascii_only: true}
-      # }
-      # .pipe $.rename (path) ->
-      #   path.extname = ".min.js"
-      #.pipe $.sourcemaps.write './'
       .pipe $.sourcemaps.write('./')
+      .pipe gulp.dest './dist/'
+      .pipe $.gzip!
       .pipe gulp.dest './dist/'
 
 
-  gulp.task 'dist:app-css', ->
+  gulp.task 'dist:css', ->
 
-    gulp.src './build/css/**/*.css'
-      .pipe $.sourcemaps.init!
-      .pipe $.minifyCss!
+    gulp.src './build/css/**/*.{css,map}'
+      #.pipe $.sourcemaps.init!
+      #.pipe $.minifyCss!
       #.pipe $.rename 'app.min.css'
-      .pipe $.sourcemaps.write './'
+      #.pipe $.sourcemaps.write './'
       .pipe gulp.dest './dist/css'
 
-  gulp.task 'dist-vendor', ->
+  gulp.task 'dist:vendor', ->
     vendorFileList = [
       './build/vendor.min.js'
       './build/vendor.min.css'
@@ -80,9 +70,9 @@ module.exports = ($, options) ->
       'clean'
       'build'
       'dist-app'
-      'dist-vendor'
+      'dist:vendor'
       'dist-index',
-      'serve:dist'
+      #'serve:dist'
       #'deploy'
 
     cb

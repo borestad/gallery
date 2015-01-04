@@ -11,11 +11,12 @@ module.exports = ($, options) ->
 
     gulp.src appFiles
       # #.pipe $.concat 'app.concat.js'
-      .pipe gulp.dest './dist/'
+      #.pipe gulp.dest './dist/'
       .pipe $.sourcemaps.init do
         loadMaps: true
 
       .pipe $.uglify!
+
       # .pipe $.uglify {
       #   outSourceMap: true
       #   #sourceRoot: '../'

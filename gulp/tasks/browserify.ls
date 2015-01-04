@@ -18,7 +18,7 @@ module.exports = ($, options) ->
       bundler = browserify {
         cache: {}
         packageCache: {}
-        fullPaths: true
+        fullPaths: $.is-dev
         bundleConfig.entries
         config.extensions
         config.debug

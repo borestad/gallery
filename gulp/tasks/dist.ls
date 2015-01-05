@@ -72,7 +72,7 @@ module.exports = ($, options) ->
       'dist-app'
       'dist:vendor'
       'dist-index',
-      #'serve:dist'
+      'serve:dist'
       #'deploy'
 
     cb

@@ -19,3 +19,4 @@ Icon
 /dist/
 /build/
 *.log
+.divshot-cache

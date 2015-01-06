@@ -11,7 +11,7 @@ j-template = require '../templates/j-index.jade'
 
 
 
-ractive = new Ractive {
+global.app = ractive = new Ractive {
   el: '#output'
   template: require '../templates/template.html'
   data: {name: 'World2222'}

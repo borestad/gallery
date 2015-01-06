@@ -33,6 +33,7 @@ module.exports = ($, options) ->
         bundler.bundle!
           .on 'error', handleErrors
           .pipe source bundleConfig.outputName
+          .pipe $.derequire!
           .pipe gulp.dest bundleConfig.dest
           .on 'end', reportFinished
 

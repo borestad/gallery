@@ -19,7 +19,12 @@ module.exports =
     ]
 
   sass:
-    src: src + "/sass/*.{sass,scss}"
+    src: [
+      "#{src}/sass/*.{sass,scss}",
+      # Exclude vendor
+      '!lib/sass/vendor',
+      '!lib/sass/vendor/**'
+      ]
     dest: dest
     settings:
 
@@ -28,12 +33,23 @@ module.exports =
       sourceComments: "map"
       imagePath: "/images" # Used by the image-url helper
 
+  stylus:
+    src: 'src/styl/main-styl.styl'
+    dest: dest
+    settings:
+
+      # Required if you want to use SASS syntax
+      # See https://github.com/dlmanning/gulp-sass/issues/81
+      sourceComments: "map"
+      imagePath: "/images" # Used by the image-url helper
+
+
   images:
-    src: src + "/images/**"
-    dest: dest + "/images"
+    src: "#{src}/images/**"
+    dest: "#{src}/images"
 
   markup:
-    src: src + "/htdocs/**"
+    src: "#{src}/htdocs/**"
     dest: dest
 
   browserify:
@@ -60,6 +76,12 @@ module.exports =
       #   outputName: "head.js"
       # }
 
+      {
+        entries      : ['./src/vendor/vendor.js']
+        outputName : 'vendor.js'
+        extensions : ['.js']
+        dest       : './build/vendor'
+      },
       {
         entries      : ['./src/js/app-js.js']
         outputName : 'app-js.js'

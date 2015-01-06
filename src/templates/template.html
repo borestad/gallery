@@ -1,3 +1,12 @@
 <h1>Hello {{ name }}</h1>
 
 <label>Enter your name: <input value="{{ name }}"></label>
+
+<h2>Country profile</h2>
+
+{{#country}}
+<p>{{name}} is a {{climate.temperature}} country with {{climate.rainfall}} rainfall and a population of {{population}}.</p>
+
+<p>The capital city is {{capital.name}} (<a href='https://maps.google.co.uk/maps/place/{{capital.name}}/@{{capital.lat}},{{capital.lon}},12z' target='_blank'>see map</a>).</p>
+
+{{/country}}

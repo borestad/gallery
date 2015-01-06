@@ -31,12 +31,12 @@ for dir in ["./gulp/tasks"]
 
   for name in files
     path = "./tasks/#{name}"
-    conf = config[name] or config
+    task = name.replace /.(js|coffee|ls)$/, ''
+    conf = config[task] #or config
 
     # Wrapper for tasks
     # This enables hooks for reading recipes and tasks
     task = ->
       gulp.task.apply gulp, arguments
 
-    console.log path
     require(path)($, conf)

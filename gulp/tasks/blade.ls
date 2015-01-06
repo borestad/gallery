@@ -1,6 +1,6 @@
-require! 'gulp'
-
 module.exports = ($, options) ->
+
+  require! 'gulp'
 
   # Blade templates
   gulp.task 'blade', ->

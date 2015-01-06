@@ -6,11 +6,11 @@ module.exports = ($, options) ->
     dest = './build/img'
 
     gulp.src 'src/img/**/*'
-      .pipe $.plumber!
-      .pipe $.changed(dest)
-      .pipe $.imagemin {
+      ..pipe $.plumber!
+      ..pipe $.changed(dest)
+      ..pipe $.imagemin {
         optimizationLevel: 3
         progressive: true
         interlaced: true
-      }
-      .pipe gulp.dest(dest)
+      } if $.is-prod
+      ..pipe gulp.dest(dest)

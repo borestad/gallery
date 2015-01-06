@@ -10,6 +10,10 @@ module.exports = ($, options) ->
     appFiles = ['./build/**/*.js', '!./build/**/vendor*.js']
 
     gulp.src appFiles
+      # Copy files
+      .pipe gulp.dest '.tmp'
+      # Revision the files
+      # .pipe $.rev-all!
       .pipe $.sourcemaps.init do
         loadMaps: true
       .pipe $.uglify!
@@ -17,10 +21,12 @@ module.exports = ($, options) ->
       .pipe gulp.dest './dist/'
       .pipe $.gzip!
       .pipe gulp.dest './dist/'
+      .pipe $.rev-all.manifest { fileName: 'manifest.json' }
+      .pipe $.rev-all.versionFile { fileName: 'version.json' }
+      .pipe gulp.dest './dist/'
 
 
   gulp.task 'dist:css', ->
-
     gulp.src './build/css/**/*.{css,map}'
       #.pipe $.sourcemaps.init!
       #.pipe $.minifyCss!
@@ -28,15 +34,16 @@ module.exports = ($, options) ->
       #.pipe $.sourcemaps.write './'
       .pipe gulp.dest './dist/css'
 
+
   gulp.task 'dist:vendor', ->
     vendorFileList = [
-      './build/vendor.min.js'
-      './build/vendor.min.css'
-      './build/vendor.min.js.map'
-      './build/vendor.min.css.map'
+      './build/vendor/vendor.*'
+      './build/vendor/vendor.min.css'
+      './build/vendor/vendor.min.js.map'
+      './build/vendor/vendor.min.css.map'
     ]
     gulp.src vendorFileList
-      .pipe gulp.dest './dist/'
+      .pipe gulp.dest './dist/vendor'
 
 
   gulp.task 'dist-index', ->
@@ -61,17 +68,18 @@ module.exports = ($, options) ->
         ignorePath: '/dist/'
         addRootSlash: false
       }
-      .pipe $.htmlmin options.htmlMinOptions
+      #.pipe $.htmlmin options.htmlMinOptions
       .pipe gulp.dest './dist/'
 
   gulp.task 'dist', (cb) ->
     run-sequence do
-      'flags:set-prod'
-      'clean'
-      'build'
-      'dist-app'
-      'dist:vendor'
+      'flags:set-prod',
+      'clean',
+      'build',
+      'dist-app',
+      'dist:vendor',
       'dist-index',
+      #'dist:cdn'
       'serve:dist'
       #'deploy'
 

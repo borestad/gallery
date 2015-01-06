@@ -33,7 +33,8 @@ module.exports = ($, options) ->
         bundler.bundle!
           .on 'error', handleErrors
           .pipe source bundleConfig.outputName
-          .pipe $.derequire!
+          # Derequire is an expensive task, only use in production mode
+          .pipe $.if $.is-prod, $.derequire!
           .pipe gulp.dest bundleConfig.dest
           .on 'end', reportFinished
 

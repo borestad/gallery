@@ -6,7 +6,8 @@ html
     meta(http-equiv='X-UA-Compatible', content='IE=edge')
     meta(name='description' content="meta desc")
     meta(name='viewport' content='width=device-width, initial-scale=1.0')
-    link(rel="stylesheet", type="text/css", href="css/main.css")
+    link(rel="stylesheet", type="text/css", href="css/main-styl.css")
+    //- link(rel="stylesheet", type="text/css", href="css/main-scss.css")
 
   body
     //- put your content here
@@ -14,6 +15,7 @@ html
     div(class='{{ foo === true ? disabled : "" }}')
     #output
 
+    script(type="text/javascript", src="vendor/vendor.js")
     script(type="text/javascript", src="js/app-js.js")
     script(type="text/javascript", src="js/app-ls.js")
     script(type="text/javascript", src="js/app-coffee.js")

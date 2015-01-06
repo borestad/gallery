@@ -17,7 +17,7 @@ module.exports = ($, options) ->
   gulp.task "stylus", ->
 
     if $.is-dev
-      return gulp.src 'src/styl/main.styl'
+      return gulp.src(options.src)
         .pipe $.plumber!
         .pipe $.stylus {
           sourcemap: {
@@ -38,7 +38,7 @@ module.exports = ($, options) ->
 
 
     if $.is-prod
-      return gulp.src("src/styl/main.styl")
+      return gulp.src(options.src)
         .pipe $.plumber!
         .pipe $.stylus do
           sourcemap:

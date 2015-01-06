@@ -14,6 +14,8 @@ module.exports = ($, options) ->
 
     # Styles
     gulp.watch 'src/styl/**/*.styl', ['stylus']
+    #gulp.watch 'src/sass/**/*.{sass,scss}', ['sass']
+    #gulp.watch 'src/lsass/**/*.{sass,scss}', ['libsass']
 
     # Vanilla JS
     gulp.watch 'src/js/**/*.js', ['browserify']

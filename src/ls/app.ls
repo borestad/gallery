@@ -1,6 +1,7 @@
 # foo = require './foo.ls'
 # #templates = require '../../build/templates/foo'
 j-template = require '../templates/j-index.jade'
+Firebase = require "firebase"
 # blade = require '../../node_modules/blade/index.js'
 
 #b-template = require '../templates/b-index.blade'

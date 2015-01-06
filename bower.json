@@ -1,0 +1,21 @@
+{
+  "name": "gallery",
+  "version": "0.0.0",
+  "homepage": "https://github.com/borestad/gallery",
+  "authors": [
+    "borestad <johan@borestad.com>"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "vue": "~0.11.4",
+    "timing-js": "~1.0.3"
+  }
+}

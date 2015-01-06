@@ -5,7 +5,11 @@ require! 'del'
 
 module.exports = ($, options) ->
 
-  gulp.task 'clean', ['clean:build', 'clean:dist']
+  gulp.task 'clean', ['clean:tmp', 'clean:build', 'clean:dist']
+
+  gulp.task 'clean:tmp', (cb) ->
+    files = ['.tmp/**/*']
+    del files, cb
 
   gulp.task 'clean:build', (cb) ->
     files = ['build/**/*']

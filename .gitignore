@@ -21,3 +21,5 @@ Icon
 *.log
 .divshot-cache
 bower_components
+.tmp
+.sass-cache
